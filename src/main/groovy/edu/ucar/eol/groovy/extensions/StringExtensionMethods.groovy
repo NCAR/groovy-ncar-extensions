@@ -87,4 +87,25 @@ class StringExtensionMethods {
     return self.trim().length() > 0
   }
 
+  /**
+   * modified from http://langref.org/groovy/strings/reversing-a-string/textwrap
+   */
+  static String fill(String self, Integer width=80, String prefix='') {
+    def out = ''
+    def remaining = self.replaceAll('\\s+',' ')
+    while (remaining) {
+      def next = prefix + remaining
+      def found = -1
+      if (next.length() > width) found = next.lastIndexOf(' ', width)
+      if (found == -1) {
+        remaining = ''
+      } else {
+        remaining = next.substring(found + 1)
+        next = next.substring(0,found)
+      }
+      out += next + '\n'
+    }
+    return out
+  }
+
 }
