@@ -1,13 +1,27 @@
 apply plugin: 'groovy'
+apply plugin: 'maven'
 
-version = '1.1.0'
+version = '1.2.0'
 
 repositories {
-  if ( project.hasProperty('localJarDir') )
+  if ( project.hasProperty('localJarRead') )
     flatDir {
-      name 'localJars'
-      dirs project.localJarDir
+      name 'localJarRead'
+      dirs project.localJarRead
       }
+
+  if ( project.hasProperty('localJarWrite') )
+    flatDir {
+      name 'localJarWrite'
+      dirs project.localJarWrite
+      }
+
+  if ( project.hasProperty('internalMavenUrl') )
+    maven {
+      url project.internalMavenUrl
+    }
+
+  mavenLocal()
   mavenCentral()
 }
 
@@ -16,11 +30,13 @@ buildscript {
     // bother, we can't "add" from "project.repositories", we have to repeat
     if ( project.hasProperty('localJarDir') )
       flatDir {
-        name 'localJars'
-        dirs project.localJarDir
+        name 'localJarRead'
+        dirs project.localJarRead
         }
-      mavenCentral()
-      }
+
+    mavenLocal()
+    mavenCentral()
+    }
   dependencies {
     classpath 'org.codehaus.groovy:groovy-all:2.1.9'
     }
@@ -32,7 +48,7 @@ dependencies {
   testCompile fileTree( dir:'build/libs/', includes:[ "groovy-ncareol-extensions-${version}.jar".toString() ] )
 }
 
-group = 'net.sinequanon'
+group = 'edu.ucar.eol'
 
 task generateModule << {
   def extensionFiles = sourceSets.main.groovy.with { g ->
@@ -71,8 +87,8 @@ groovydoc {
   header = 'groovy-ncareol-extensions'
   footer = null
 
-  link 'http://docs.oracle.com/javase/7/docs/api/', 'java.', 'javax.'
-  link 'http://groovy.codehaus.org/api/', 'groovy.', 'org.codehaus.groovy.'
+  link 'http://docs.oracle.com/javase/8/docs/api/', 'java.', 'javax.'
+  link 'http://docs.groovy-lang.org/latest/html/api/', 'groovy.', 'org.codehaus.groovy.'
 }
 
 task groovydocJar(type: Jar, dependsOn: groovydoc) {
@@ -93,8 +109,15 @@ artifacts {
 
 uploadArchives {
   repositories {
-    if ( project.hasProperty('localJarDir') )
-      add project.repositories.localJars
+
+    if ( project.hasProperty('localJarWrite') )
+      add project.repositories.localJarWrite
+
+    if ( project.hasProperty('internalMavenUrl') )
+      mavenDeployer {
+        repository(url: project.internalMavenUrl)
+        }
+
     }
   }
 

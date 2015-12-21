@@ -1,7 +1,18 @@
 # groovy-ncareol-extensions
 
-Some Groovy extensions to standard classes.
+Groovy extensions to standard Java and/or Groovy classes,
+as used by developers in UCAR-NCAR/EOL.
+Includes:
 
-* some String utilities
+ * String extensions / convenience methods
+
+## Deployment
+
+To deploy the project, check that your umask is sufficiently social (e.g. `2`)
+and set the build properties described in `gradle.properties.example`.
+
+Use gradle task `uploadArchives` (not `install`).
+
+## License
 
 See LICENSE.txt

@@ -1,0 +1,8 @@
+# local directory cache of jar files, read access for dependencies
+#localJarRead=/home/user/jars
+
+# local directory cache of jar files, write access for "uploading" this project
+#localJarWrite=/home/user/jars
+
+# internal maven remote repository with read AND write access
+#internalMavenUrl=file:///path/to/maven2
