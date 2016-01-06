@@ -1,5 +1,9 @@
 # groovy-ncareol-extensions/CHANGELOG.md
 
+## 1.3.0 : 2016-01-06
+
+Add VersionNumber formatter and compare utility.
+
 ## 1.2.0 : 2015-12-21
 
 Setup build for internal maven repository.
