@@ -5,6 +5,7 @@ as used by developers in UCAR-NCAR/EOL.
 Includes:
 
  * String extensions / convenience methods
+ * Date formatting extensions
 
 ## Deployment
 
