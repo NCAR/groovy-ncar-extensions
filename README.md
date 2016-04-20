@@ -6,6 +6,7 @@ Includes:
 
  * String extensions / convenience methods
  * Date formatting extensions
+ * BreakException
 
 ## Deployment
 

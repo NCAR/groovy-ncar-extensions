@@ -1,5 +1,9 @@
 # groovy-ncareol-extensions/CHANGELOG.md
 
+## 1.5.0 : 2016-04-20
+
+Add BreakException (moved from Zinc app)
+
 ## 1.4.0 : 2016-01-26
 
 Add extension method to Date that formats it for HTTP headers (RFC-1123).
