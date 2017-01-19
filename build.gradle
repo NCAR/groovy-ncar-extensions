@@ -1,21 +1,9 @@
 apply plugin: 'groovy'
 apply plugin: 'maven'
 
-version = '1.5.1'
+version = '2.0.0'
 
 repositories {
-  if ( project.hasProperty('localJarRead') )
-    flatDir {
-      name 'localJarRead'
-      dirs project.localJarRead
-      }
-
-  if ( project.hasProperty('localJarWrite') )
-    flatDir {
-      name 'localJarWrite'
-      dirs project.localJarWrite
-      }
-
   if ( project.hasProperty('internalMavenUrl') )
     maven {
       url project.internalMavenUrl
@@ -28,54 +16,55 @@ repositories {
 buildscript {
   repositories {
     // bother, we can't "add" from "project.repositories", we have to repeat
-    if ( project.hasProperty('localJarDir') )
-      flatDir {
-        name 'localJarRead'
-        dirs project.localJarRead
-        }
+    if ( project.hasProperty('internalMavenUrl') )
+      maven {
+        url project.internalMavenUrl
+      }
 
     mavenLocal()
     mavenCentral()
     }
   dependencies {
-    classpath 'org.codehaus.groovy:groovy-all:2.1.9'
+    classpath 'org.codehaus.groovy:groovy-all:2.4.7'
     }
 }
 
 dependencies {
-  compile 'org.codehaus.groovy:groovy-all:2.1.9'
+  compile 'org.codehaus.groovy:groovy-all:2.4.7'
   testCompile 'junit:junit:4.+'
   testCompile fileTree( dir:'build/libs/', includes:[ "groovy-ncareol-extensions-${version}.jar".toString() ] )
 }
 
 group = 'edu.ucar.eol'
 
-task generateModule << {
-  def extensionFiles = sourceSets.main.groovy.with { g ->
-    g.findAll {
-      it.parentFile.name == 'extensions' && it.name.endsWith( 'groovy' )
-    }.collect {
-      it.toString().replaceAll( File.separator, '.' )
-    }.collect {
-      it - ( g.srcDirs as List )[0].toString().replaceAll( File.separator, '.' )
-    }.collect {
-      it[ 1..-8 ]
-    }.join( ',' )
-  }
+task generateModule {
+  doLast {
+    def extensionFiles = sourceSets.main.groovy.with { g ->
+      g.findAll {
+        it.parentFile.name == 'extensions' &&
+        it.name.endsWith( 'groovy' ) &&
+        !it.name.endsWith('package-info.groovy')
+      }.collect {
+        it.toString().replaceAll( File.separator, '.' )
+      }.collect {
+        it - ( g.srcDirs as List )[0].toString().replaceAll( File.separator, '.' )
+      }.collect {
+        it[ 1..-8 ]
+      }.join( ',' )
+    }
+    println "Using extension files: ${extensionFiles}"
 
-  new File( "$buildDir/classes/main/" +
-    org.codehaus.groovy.runtime.m12n.ExtensionModuleScanner.MODULE_META_INF_FILE
-    // 2.1.9, 2.2.1 : org.codehaus.groovy.runtime.m12n.ExtensionModuleScanner.MODULE_META_INF_FILE
-    // deprecated : org.codehaus.groovy.runtime.metaclass.MetaClassRegistryImpl.MODULE_META_INF_FILE
-    // ===> META-INF/services/org.codehaus.groovy.runtime.ExtensionModule
-    ).with { f ->
-    println "f ${f}"
-    f.parentFile?.mkdirs()
-    f.withWriter { w ->
-      w.writeLine 'moduleName=groovy-ncareol-extensions'
-      w.writeLine "moduleVersion=$version"
-      w.writeLine "extensionClasses=$extensionFiles"
-      w.writeLine 'staticExtensionClasses='
+    new File( "$buildDir/classes/main/" +
+      'META-INF/services/org.codehaus.groovy.runtime.ExtensionModule'
+      ).with { f ->
+      println "Creating extension definition file: ${f}"
+      f.parentFile?.mkdirs()
+      f.withWriter { w ->
+        w.writeLine 'moduleName=groovy-ncareol-extensions'
+        w.writeLine "moduleVersion=$version"
+        w.writeLine "extensionClasses=$extensionFiles"
+        w.writeLine 'staticExtensionClasses='
+      }
     }
   }
 }
@@ -88,7 +77,7 @@ groovydoc {
   footer = null
 
   link 'http://docs.oracle.com/javase/8/docs/api/', 'java.', 'javax.'
-  link 'http://docs.groovy-lang.org/latest/html/api/', 'groovy.', 'org.codehaus.groovy.'
+  link 'http://docs.groovy-lang.org/2.4.7/html/api/', 'groovy.', 'org.codehaus.groovy.'
 }
 
 task groovydocJar(type: Jar, dependsOn: groovydoc) {

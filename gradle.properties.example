@@ -1,8 +1,7 @@
-# local directory cache of jar files, read access for dependencies
-#localJarRead=/home/user/jars
-
-# local directory cache of jar files, write access for "uploading" this project
-#localJarWrite=/home/user/jars
-
-# internal maven remote repository with read AND write access
-#internalMavenUrl=file:///path/to/maven2
+# copy and edit this files as "gradle.properties"
+#
+# internalMavenUrl: URL for an "internal" Maven remote repository
+# with both read AND write access.
+# MUST be a "file:" URL.
+#
+internalMavenUrl=file:///path/to/maven2
