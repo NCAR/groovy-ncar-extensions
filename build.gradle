@@ -1,7 +1,7 @@
 apply plugin: 'groovy'
 apply plugin: 'maven'
 
-version = '2.0.0'
+version = '3.0.0'
 
 repositories {
   if ( project.hasProperty('internalMavenUrl') )
@@ -25,12 +25,12 @@ buildscript {
     mavenCentral()
     }
   dependencies {
-    classpath 'org.codehaus.groovy:groovy-all:2.4.7'
+    classpath 'org.codehaus.groovy:groovy-all:2.5.6'
     }
 }
 
 dependencies {
-  compile 'org.codehaus.groovy:groovy-all:2.4.7'
+  compile 'org.codehaus.groovy:groovy-all:2.5.6'
   testCompile 'junit:junit:4.+'
   testCompile fileTree( dir:'build/libs/', includes:[ "groovy-ncareol-extensions-${version}.jar".toString() ] )
 }
@@ -54,8 +54,8 @@ task generateModule {
     }
     println "Using extension files: ${extensionFiles}"
 
-    new File( "$buildDir/classes/main/" +
-      'META-INF/services/org.codehaus.groovy.runtime.ExtensionModule'
+    new File( "$buildDir/resources/main/" +
+      'META-INF/groovy/org.codehaus.groovy.runtime.ExtensionModule'
       ).with { f ->
       println "Creating extension definition file: ${f}"
       f.parentFile?.mkdirs()
@@ -77,7 +77,7 @@ groovydoc {
   footer = null
 
   link 'http://docs.oracle.com/javase/8/docs/api/', 'java.', 'javax.'
-  link 'http://docs.groovy-lang.org/2.4.7/html/api/', 'groovy.', 'org.codehaus.groovy.'
+  link 'http://docs.groovy-lang.org/2.5.6/html/api/', 'groovy.', 'org.codehaus.groovy.'
 }
 
 task groovydocJar(type: Jar, dependsOn: groovydoc) {
