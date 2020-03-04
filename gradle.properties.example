@@ -1,7 +1,13 @@
-# copy and edit this files as "gradle.properties"
-#
+# copy and edit this file as "gradle.properties"
+
 # internalMavenUrl: URL for an "internal" Maven remote repository
-# with both read AND write access.
+#   with both read AND write access.
 # MUST be a "file:" URL.
-#
 internalMavenUrl=file:///path/to/maven2
+
+# localJarRead: optional "flat" directory repository of JARs
+#localJarRead=/path/to/my/lib
+
+# localJarWrite: optional "flat" directory to also receive
+#   a copy of the JAR during "uploadArchives"
+#localJarWrite=/path/to/my/lib

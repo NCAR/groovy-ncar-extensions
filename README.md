@@ -35,9 +35,14 @@ This module is developed and tested with the latest Java8 (OpenJDK 1.8.x).
 ## Deployment
 
 To deploy the project, check that your umask is sufficiently social (e.g. `2`)
-and set the Maven URL property described in `gradle.properties.example`.
+and set the "internalMavenUrl" property described in `gradle.properties.example`.
+Then use gradle task `uploadArchives`.
 
-Use gradle task `uploadArchives` (not `install`).
+Your app should configure that internalMavenUrl, or an equivalent readonly version,
+as a maven repository.
+
+You may also install in "mavenLocal", your maven cache (e.g. ~/.m2/)
+using the task `install`.
 
 ## License
 
