@@ -3,7 +3,7 @@
  * see LICENSE.txt
  */
 
-package edu.ucar.eol.util
+package edu.ucar.util
 
 /**
  * Utilities to deal with version numbers

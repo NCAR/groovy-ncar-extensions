@@ -7,6 +7,6 @@
  * Some Groovy extensions to standard classes.
  *
  * @author jja@ucar.edu
- * @see http://github.com/ncareol/groovy-ncareol-extensions
+ * @see http://github.com/NCAR/groovy-ncar-extensions
  */
-package edu.ucar.eol.groovy.extensions
+package edu.ucar.groovy.extensions

@@ -3,7 +3,7 @@
  * see LICENSE.txt
  */
 
-package edu.ucar.eol.groovy.extensions
+package edu.ucar.groovy.extensions
 
 /**
  * Extensions to {@code String}

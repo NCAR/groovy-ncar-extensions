@@ -1,4 +1,4 @@
-package edu.ucar.eol.groovy
+package edu.ucar.groovy
 
 @Singleton
 class BreakException extends Exception {

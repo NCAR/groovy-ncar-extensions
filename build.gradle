@@ -26,10 +26,10 @@ repositories {
 dependencies {
   compile 'org.codehaus.groovy:groovy-all:2.5.6'
   testCompile 'junit:junit:4.+'
-  testCompile fileTree( dir:'build/libs/', includes:[ "groovy-ncareol-extensions-${version}.jar".toString() ] )
+  testCompile fileTree( dir:'build/libs/', includes:[ "groovy-ncar-extensions-${version}.jar".toString() ] )
 }
 
-group = 'edu.ucar.eol'
+group = 'edu.ucar'
 
 task generateModule {
   doLast {
@@ -54,7 +54,7 @@ task generateModule {
       println "Creating extension definition file: ${f}"
       f.parentFile?.mkdirs()
       f.withWriter { w ->
-        w.writeLine 'moduleName=groovy-ncareol-extensions'
+        w.writeLine 'moduleName=groovy-ncar-extensions'
         w.writeLine "moduleVersion=$version"
         w.writeLine "extensionClasses=$extensionFiles"
         w.writeLine 'staticExtensionClasses='
@@ -66,8 +66,8 @@ task generateModule {
 groovydoc {
   use = true
   destinationDir = new File( "${project.buildDir.path}/groovydoc", project.version )
-  //header = '<a href="https://github.com/ncareol/groovy-ncareol-extensions">groovy-ncareol-extensions</a>'
-  header = 'groovy-ncareol-extensions'
+  header = '<a href="https://github.com/NCAR/groovy-ncar-extensions">groovy-ncar-extensions</a>'
+  //header = 'groovy-ncar-extensions'
   footer = null
 
   link 'http://docs.oracle.com/javase/8/docs/api/', 'java.', 'javax.'
