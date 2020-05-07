@@ -7,6 +7,8 @@ Includes:
  * Date formatting extensions
  * BreakException
 
+[API documentation](https://ncar.github.io/groovy-ncar-extensions/)
+
 ## Version compatibilities
 
 Version 3.x of this module uses the

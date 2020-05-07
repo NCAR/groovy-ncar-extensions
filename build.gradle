@@ -65,13 +65,12 @@ task generateModule {
 
 groovydoc {
   use = true
-  destinationDir = new File( "${project.buildDir.path}/groovydoc", project.version )
+  destinationDir = new File(buildDir, "groovydoc/$version")
   header = '<a href="https://github.com/NCAR/groovy-ncar-extensions">groovy-ncar-extensions</a>'
-  //header = 'groovy-ncar-extensions'
   footer = null
 
-  link 'http://docs.oracle.com/javase/8/docs/api/', 'java.', 'javax.'
-  link 'http://docs.groovy-lang.org/2.5.6/html/api/', 'groovy.', 'org.codehaus.groovy.'
+  link 'https://docs.oracle.com/javase/8/docs/api/', 'java.', 'javax.'
+  link 'https://docs.groovy-lang.org/2.5.6/html/api/', 'groovy.', 'org.codehaus.groovy.'
 }
 
 task groovydocJar(type: Jar, dependsOn: groovydoc) {
@@ -108,3 +107,20 @@ uploadArchives {
 jar.dependsOn( generateModule )
 test.dependsOn( jar )
 uploadArchives.dependsOn( test )
+
+task 'gh-pages'(type: Copy) {
+    dependsOn groovydoc
+    println groovydoc.destinationDir
+    from  groovydoc.destinationDir
+    def destdir = new File(projectDir,"./gh-pages/$version")
+    println destdir
+    into destdir
+
+    doLast {
+        def readme = new File(projectDir,"./gh-pages/README.md")
+        def readmeVersion = "* [$version]($version/)\n"
+        if (!readme.text.contains(readmeVersion))
+            readme.append(readmeVersion)
+        println 'gh-pages have been updated. You must review, commit, and push!'
+    }
+}
