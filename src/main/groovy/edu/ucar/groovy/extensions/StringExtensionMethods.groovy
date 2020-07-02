@@ -88,7 +88,15 @@ class StringExtensionMethods {
   }
 
   /**
+   * Fill a fixed-width block of text from the source String.
+   *
+   * String is newline-wrapped at the specified width (default 80)
+   * including any optional prefix indendation.
+   *
    * modified from http://langref.org/groovy/strings/reversing-a-string/textwrap
+   *
+   * @param width the maximum width of a line of text
+   * @param prefix optional String to prefix each line, as for indentation
    */
   static String fill(String self, Integer width=80, String prefix='') {
     def out = ''
@@ -107,5 +115,77 @@ class StringExtensionMethods {
     }
     return out
   }
+
+    /**
+     * Convert CamelCase String to snake_case
+     *
+     * @return snake_case String, or null
+     */
+    static final String to_snake_case(String self) {
+        camelToSeparator(self,'_')
+    }
+
+    /**
+     * Convert CamelCase String to space separated words.
+     *
+     * @return space separated String, or null
+     */
+    static final String toSpaceCase(String self) {
+        camelToSeparator(self,' ')
+    }
+
+    /**
+     * Convert CamelCase String to hyphen-separated-words.
+     *
+     * @return hypen-separated String, or null
+     */
+    static final String toHyphenCase(String self) {
+        camelToSeparator(self,'-')
+    }
+
+    /**
+     * Convert CamelCase String to dot.separated.words (in the style of a Java property name).
+     *
+     * @return dot-separated String, or null
+     */
+    static final String toDotCase(String self) {
+        camelToSeparator(self,'.')
+    }
+
+    private static final String camelToSeparator(String self, String sep) {
+        if (null==self) return null
+        if (null==sep) return null
+        self.trim().replaceAll(/\B[A-Z]/) { sep + it }.toLowerCase()
+    }
+
+    /**
+     * Convert a punctuation-separated String to CamelCase.
+     *
+     * Given String can be separated by
+     * underscore (_), hyphen (-), dot(.), or space.
+     *
+     * The following examples all convert to "fooBarBahz":
+     * foo_bar_bahz
+     * "  foo bar bahz  "
+     * foo.Bar.bahz
+     * foo-bar-bahz
+     * --foo-bar-bahz--
+     * foo. Bar-bahz
+     *
+     * @return the CamelCase String, or null
+     */
+    static final String toCamelCase(String self) {
+        if (null==self) return null
+        StringBuilder sb = new StringBuilder(self.length());
+        ArrayList tokens = self.trim().split('[_.\\s-]+') as ArrayList
+        if (!tokens) return ''
+
+        String token = tokens.pop()
+        if (!token && tokens) token = tokens.pop()    // throw away initial empty
+        if (token) sb << token
+
+        tokens.each { if (it) sb << it.capitalize() }
+        sb.toString()
+    }
 
 }

@@ -1,5 +1,10 @@
 # groovy-ncareol-extensions/CHANGELOG.md
 
+## 3.1.0 : 2020-07-02
+
+Add String extension methods to convert between CamelCase
+and punctuated case like snake_case and property.dot.case.
+
 ## 3.0.0 : 2020-03-04
 
 Update to Groovy 2.5.6 (for Grails 4.0.x).
