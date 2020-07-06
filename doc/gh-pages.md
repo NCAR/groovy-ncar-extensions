@@ -6,9 +6,37 @@ and the Github branch `gh-pages`. This is accessible at:
 
     https://ncar.github.io/groovy-ncar-extensions/
 
+## Simple setup
+
+Skip the long discussion below, and just checkout
+a copy of the gh-pages branch into a gh-pages subdirectory
+in the main clone top-level.
+
+    git clone -b gh-pages git@github.com:NCAR/groovy-ncar-extensions.git gh-pages
+    cd gh-pages
+    git remote set-head origin gh-pages
+    git remote set-branches origin gh-pages
+
+During development, when a new version is deployed,
+also run the Gradle task `gh-pages` to generate new docs.
+Then change to the gh-pages subdir and add/commit the changes.
+Finally, push gh-pages direct to github.
+
+(Submodules may be explored in the future, but for the
+moment we will keep a simpler deployment workflow.)
+
+We recommend that you do not checkout the gh-pages branch
+in the main level of your repo. Deleting and creating so many
+files may cause performance issues or unintended side-effects.
+
+## Intro
+
 The workflow is based on this author's personal site,
 documented in that [blog](http://haxx.sinequanon.net/2016/08/gh-pages-setup/).
-The basic process is repeated here.
+The basic process is repeated here, but may actually
+be more complicated than necessary. It is hard to get
+changes from github pulled into the gh-pages branch
+of the main checkout and then into the gh-pages subdir.
 
 ## Setup
 
